@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS TradeDetail;
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS Team (
     id INTEGER PRIMARY KEY,
-    abbreviation TEXT,
+    abbreviation TEXT UNIQUE,
     name TEXT, 
     nickname TEXT
 )
@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS Player (
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS Trade (
     id INTEGER PRIMARY KEY,
-    date TEXT
+    date TEXT,
+    hash TEXT UNIQUE
 )
 """)
 
@@ -43,6 +44,7 @@ CREATE TABLE IF NOT EXISTS TradeDetail (
     player_id INTEGER,
     from_team_id INTEGER,
     to_team_id INTEGER,
+    UNIQUE(player_id, from_team_id, to_team_id),
     FOREIGN KEY (trade_id) REFERENCES Trade(id),
     FOREIGN KEY (player_id) REFERENCES Player(id),
     FOREIGN KEY (from_team_id) REFERENCES Team(id),
