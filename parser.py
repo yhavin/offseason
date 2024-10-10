@@ -2,6 +2,7 @@ import sqlite3
 import re
 from datetime import datetime
 import pprint
+import hashlib
 
 import requests
 from bs4 import BeautifulSoup
@@ -74,6 +75,14 @@ def extract_teams(block):
             if team:
                 teams.append(team)
 
+    for div_tag in block.find_all("div", class_="p-rich_text_section"):
+        b_tag = div_tag.find("b")
+        if b_tag and " receive:" in b_tag.get_text():
+            team_nickname = b_tag.get_text().replace(" receive:", "").strip()
+            team = teams_by_nickname.get(team_nickname, teams_by_nickname.get(alternative_nickname_mapping.get(team_nickname)))
+            if team:
+                teams.append(team)
+
     return teams
 
 
@@ -86,23 +95,58 @@ def is_valid_player_name(player_name):
 
 
 def extract_players(block, num_teams):
-    players = []
-
     ul_tags = block.find_all("ul")
 
     if num_teams == 2:  # Standard trade
-        team_1_names_received = [clean_player_name(li.get_text()) for li in ul_tags[0].find_all("li") if is_valid_player_name(li.get_text())]
-        team_2_names_received = [clean_player_name(li.get_text()) for li in ul_tags[1].find_all("li") if is_valid_player_name(li.get_text())]
-
-        team_1_players_received = [players_by_name.get(name) or Player(None, name, True) for name in team_1_names_received]
-        team_2_players_received = [players_by_name.get(name) or Player(None, name, True) for name in team_2_names_received]
-
-        players.append(team_1_players_received)
-        players.append(team_2_players_received)
+        players = extract_players_standard_trade(ul_tags)
     elif num_teams > 2:  # Multi-team trade
-            pass
+        players = extract_players_multiteam_trade(ul_tags)
     
     return players
+
+
+def extract_players_standard_trade(ul_tags):
+    players = []
+
+    team_1_names_received = [clean_player_name(li.get_text()) for li in ul_tags[0].find_all("li") if is_valid_player_name(li.get_text())]
+    team_2_names_received = [clean_player_name(li.get_text()) for li in ul_tags[1].find_all("li") if is_valid_player_name(li.get_text())]
+
+    team_1_players_received = [players_by_name.get(name) or Player(None, name, True) for name in team_1_names_received]
+    team_2_players_received = [players_by_name.get(name) or Player(None, name, True) for name in team_2_names_received]
+
+    players.append(team_1_players_received)
+    players.append(team_2_players_received)
+
+    return players
+
+
+def extract_players_multiteam_trade(ul_tags):
+    players = []
+
+    for ul_tag in ul_tags:
+        received_players = []
+        for li_tag in ul_tag.find_all("li"):
+            player_name_with_via = li_tag.get_text()
+            player_name = clean_player_name(li_tag.get_text())
+            from_team = extract_via_team(player_name_with_via)
+
+            if is_valid_player_name(player_name):
+                player = players_by_name.get(player_name) or Player(None, player_name, True)
+                received_players.append((player, from_team))
+
+        players.append(received_players)
+
+    return players
+
+
+def extract_via_team(player_name):
+    via_match = re.search(r"via\s+([\w\s]+)", player_name)
+    if via_match:
+        from_team_nickname = via_match.group(1).replace("via ", "")
+        from_team = teams_by_nickname.get(from_team_nickname, teams_by_nickname.get(alternative_nickname_mapping.get(from_team_nickname)))
+        if from_team:
+            return from_team
+    return Team(None, "NA", "Unknown", "Unknown")
 
 
 def clean_player_name(player):
@@ -110,49 +154,125 @@ def clean_player_name(player):
     return re.sub(r"\s*\(.*?\)", "", player).strip().replace("’", "'")
 
 
-def generate_trade_details(teams_players):
-    trade_details = []
+def parse_block_to_trade_details(block): 
+    teams = extract_teams(block)
+    players = extract_players(block, len(teams))
+    trade_details = generate_trade_details(teams, players)
+    return trade_details
 
-    if len(teams_players) == 2:  # Standard trade
+
+def generate_trade_details(teams, players):
+    trade_details = []
+    unmatched_players = []
+    unmatched_teams = []
+
+    if len(teams) == 2:  # Standard trade
+        teams_players = list(zip(teams, players))
         for index, (to_team, players_received) in enumerate(teams_players):
             from_team = teams_players[1 - index][0]  # Other team
             for player in players_received:
                 trade_detail = TradeDetail(
                     trade_id=None,  # Placeholder
-                    player_id=player.id,  # Potentially placeholder
+                    player_id=player.id,  # None for unmatched player
                     from_team_id=from_team.id,
                     to_team_id=to_team.id
                 )
                 trade_details.append(trade_detail)
-    elif len(teams_players) > 2:  # Multi-team trade
-        pass
 
-    return trade_details
+                if player.id is None:
+                    unmatched_players.append(player)
+    elif len(teams) > 2:  # Multi-team trade
+        for index, to_team in enumerate(teams):
+            players_received = players[index]
+            for player in players_received:
+                trade_detail = TradeDetail(
+                    trade_id=None,  # Placeholder
+                    player_id=player[0].id,  # None for unmatched player
+                    from_team_id=player[1].id,  # None for unmatched team
+                    to_team_id=to_team.id
+                )
+                trade_details.append(trade_detail)
+
+                if player[0].id is None:
+                    unmatched_players.append(player[0])
+                if player[1].id is None:
+                    unmatched_teams.append(player[1])
+
+    return trade_details, unmatched_players, unmatched_teams
 
 
-def insert_trade(cursor: sqlite3.Cursor, trade):
-    cursor.execute("INSERT INTO Trade (trade_date) VALUES (?)", (trade.trade_date,))
-    return cursor.lastrowid
+def compute_trade_hash(trade_details):
+    trade_details_string = "".join(f"{trade_detail.player_id}-{trade_detail.from_team_id}-{trade_detail.to_team_id}" for trade_detail in trade_details)
+    return hashlib.sha256(trade_details_string.encode("utf-8")).hexdigest()
 
 
-def parse_block_to_teams_players(block):
-    teams_players = []
-    
-    teams = extract_teams(block)
-    players = extract_players(block, len(teams))
+def insert_trade_and_details(cursor, trade, trade_details, unmatched_players, unmatched_teams):
+    try:
+        cursor.execute("BEGIN TRANSACTION;")
 
-    if len(teams) == 2:  # Standard trade
-        teams_players = list(zip(teams, players))
-    if len(teams) > 2:  # Multi-team trade
-        pass
+        trade_hash = compute_trade_hash(trade_details)
 
-    return teams_players
+        cursor.execute("""
+            INSERT INTO Trade (date, hash)
+            VALUES (?, ?)
+            ON CONFLICT(hash) DO NOTHING
+        """, (trade.date, trade_hash))
+        trade_id = cursor.lastrowid
+
+        if not trade_id:  # Trade already exists
+            cursor.execute("ROLLBACK;")
+            print(f"Trade already exists: {trade_id}. Skipping...")
+            return
+
+        for player in unmatched_players:
+            cursor.execute("INSERT INTO Player (name, active) VALUES (?, ?)",
+                           (player.name, player.active))
+            player_id = cursor.lastrowid
+
+            for index, trade_detail in enumerate(trade_details):
+                if trade_detail.player_id is None:
+                    trade_details[index] = trade_detail._replace(player_id=player_id)
+                    break  # Move to next player since unmatched players list order corresponds with trade_details.player_id is None list order
+
+        for team in unmatched_teams:
+            cursor.execute("""
+                INSERT INTO Team (abbreviation, name, nickname)
+                VALUES (?, ?, ?)
+                ON CONFLICT(abbreviation) DO NOTHING
+            """,(team.abbreviation, team.name, team.nickname))
+            team_id = cursor.lastrowid
+            if team_id == trade_id:  # No unmatched team inserted
+                team_id = cursor.execute("SELECT id from TEAM WHERE abbreviation = ?", (team.abbreviation, )).fetchone()[0]
+
+            for index, trade_detail in enumerate(trade_details):
+                if trade_detail.from_team_id is None:
+                    trade_details[index] = trade_detail._replace(from_team_id=team_id)
+                    break  # Move to next team since unmatched teams list order corresponds with trade_details.from_team_id is None list order
+
+        for trade_detail in trade_details:
+            # print(f"Inserting: trade_id={trade_id}, player_id={trade_detail.player_id}, from_team_id={trade_detail.from_team_id}, to_team_id={trade_detail.to_team_id}")
+            cursor.execute("""
+                INSERT INTO TradeDetail (trade_id, player_id, from_team_id, to_team_id) 
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(player_id, from_team_id, to_team_id) DO NOTHING
+            """, (trade_id, trade_detail.player_id, trade_detail.from_team_id, trade_detail.to_team_id))
+            
+        cursor.execute("COMMIT;")
+        print(f"Transaction successful: {trade_id}")
+
+    except Exception as e:
+        cursor.execute("ROLLBACK;")
+        raise e
+
+        
 
 
 if __name__ == "__main__":
     alternative_nickname_mapping = {
         "Mavs": "Mavericks",
-        "Blazers": "Trail Blazers"
+        "Blazers": "Trail Blazers",
+        "San Antonio": "Spurs",
+        "Wolves": "Timberwolves"
     }
 
 
@@ -173,26 +293,25 @@ if __name__ == "__main__":
         blocks = parse_page_to_blocks(trade_page)
 
         for index, block in enumerate(blocks):
-            print(f"*******START {index}")
+            # print(f"*******START {index}")
             date = extract_date(block, year)
-            trade = Trade(None, date)
-            teams_players = parse_block_to_teams_players(block)
-            trade_details = generate_trade_details(teams_players)
-            pprint.pprint(trade)
-            pprint.pprint(trade_details)
-            print(f"*******END   {index}")
-        quit()
+            trade = Trade(None, date, None)
+            trade_details, unmatched_players, unmatched_teams = parse_block_to_trade_details(block)
+            insert_trade_and_details(cursor, trade, trade_details, unmatched_players, unmatched_teams)
+            # pprint.pprint(trade)
+            # pprint.pprint(trade_details)
+            # pprint.pprint(unmatched_players)
+            # pprint.pprint(unmatched_teams)
+            # print(f"*******END   {index}")
 
 
 
-        # block_index = 25
+        # block_index = 5
         # current_block = blocks[block_index]
 
         # date = extract_date(current_block, year)
         # trade = Trade(None, date)
 
-        # teams_players = parse_block_to_teams_players(current_block)
-        # print(teams_players)
-        # quit()
-        # trade_details = generate_trade_details(teams_players)
+        # trade_details = parse_block_to_trade_details(current_block)
+        # pprint.pprint(trade_details)
         

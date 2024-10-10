@@ -1,0 +1,227 @@
+*******START 0
+Trade(id=None, date='2024-10-02')
+[TradeDetail(trade_id=None, player_id=1626157, from_team_id=1610612750, to_team_id=1610612752),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612766, to_team_id=1610612752),
+ TradeDetail(trade_id=None, player_id=1628966, from_team_id=1610612752, to_team_id=1610612750),
+ TradeDetail(trade_id=None, player_id=1628978, from_team_id=1610612752, to_team_id=1610612750),
+ TradeDetail(trade_id=None, player_id=203944, from_team_id=1610612752, to_team_id=1610612750),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612752, to_team_id=1610612766),
+ TradeDetail(trade_id=None, player_id=1629610, from_team_id=1610612752, to_team_id=1610612766),
+ TradeDetail(trade_id=None, player_id=1630613, from_team_id=1610612752, to_team_id=1610612766)]
+[Player(id=None, name='James Nnaji', active=True),
+ Player(id=None, name='Charlie Brown', active=True)]
+[]
+*******END   0
+*******START 1
+Trade(id=None, date='2024-07-29')
+[TradeDetail(trade_id=None, player_id=1631223, from_team_id=1610612756, to_team_id=1610612737),
+ TradeDetail(trade_id=None, player_id=1630604, from_team_id=1610612737, to_team_id=1610612756)]
+[]
+[]
+*******END   1
+*******START 2
+Trade(id=None, date='2024-07-19')
+[TradeDetail(trade_id=None, player_id=1630533, from_team_id=1610612763, to_team_id=1610612751),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612751, to_team_id=1610612763),
+ TradeDetail(trade_id=None, player_id=1629603, from_team_id=1610612751, to_team_id=1610612763)]
+[Player(id=None, name='Nemanja Dangubic', active=True)]
+[]
+*******END   2
+*******START 3
+Trade(id=None, date='2024-07-18')
+[TradeDetail(trade_id=None, player_id=201566, from_team_id=1610612746, to_team_id=1610612762),
+ TradeDetail(trade_id=None, player_id=1627739, from_team_id=1610612762, to_team_id=1610612746)]
+[]
+[]
+*******END   3
+*******START 4
+Trade(id=None, date='2024-07-08')
+[TradeDetail(trade_id=None, player_id=1630537, from_team_id=None, to_team_id=1610612741),
+ TradeDetail(trade_id=None, player_id=1630564, from_team_id=1610612759, to_team_id=1610612741),
+ TradeDetail(trade_id=None, player_id=201942, from_team_id=None, to_team_id=1610612758),
+ TradeDetail(trade_id=None, player_id=203084, from_team_id=None, to_team_id=1610612759)]
+[]
+[Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown'),
+ Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown'),
+ Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown')]
+*******END   4
+*******START 5
+Trade(id=None, date='2024-07-06')
+[TradeDetail(trade_id=None, player_id=202691, from_team_id=None, to_team_id=1610612742),
+ TradeDetail(trade_id=None, player_id=203937, from_team_id=None, to_team_id=1610612744),
+ TradeDetail(trade_id=None, player_id=1627741, from_team_id=None, to_team_id=1610612744),
+ TradeDetail(trade_id=None, player_id=1630182, from_team_id=None, to_team_id=1610612766),
+ TradeDetail(trade_id=None, player_id=202704, from_team_id=None, to_team_id=1610612766)]
+[]
+[Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown'),
+ Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown'),
+ Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown'),
+ Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown'),
+ Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown')]
+*******END   5
+*******START 6
+Trade(id=None, date='2024-07-06')
+[TradeDetail(trade_id=None, player_id=1628969, from_team_id=1610612751, to_team_id=1610612752),
+ TradeDetail(trade_id=None, player_id=1628966, from_team_id=1610612751, to_team_id=1610612752),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612751, to_team_id=1610612752),
+ TradeDetail(trade_id=None, player_id=202711, from_team_id=1610612752, to_team_id=1610612751),
+ TradeDetail(trade_id=None, player_id=1629603, from_team_id=1610612752, to_team_id=1610612751),
+ TradeDetail(trade_id=None, player_id=1629003, from_team_id=1610612752, to_team_id=1610612751)]
+[Player(id=None, name='Juan Pablo Vaulet', active=True)]
+[]
+*******END   6
+*******START 7
+Trade(id=None, date='2024-07-06')
+[TradeDetail(trade_id=None, player_id=1627749, from_team_id=1610612737, to_team_id=1610612740),
+ TradeDetail(trade_id=None, player_id=1630700, from_team_id=1610612740, to_team_id=1610612737),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612740, to_team_id=1610612737),
+ TradeDetail(trade_id=None, player_id=1626204, from_team_id=1610612740, to_team_id=1610612737),
+ TradeDetail(trade_id=None, player_id=203469, from_team_id=1610612740, to_team_id=1610612737),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612740, to_team_id=1610612737)]
+[Player(id=None, name='E.J. Lidell', active=True),
+ Player(id=None, name='2027 first-round pick', active=True)]
+[]
+*******END   7
+*******START 8
+Trade(id=None, date='2024-07-06')
+[TradeDetail(trade_id=None, player_id=1628984, from_team_id=1610612759, to_team_id=1610612766),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612759, to_team_id=1610612766)]
+[Player(id=None, name='2025 second-round pick', active=True)]
+[]
+*******END   8
+*******START 9
+Trade(id=None, date='2024-07-06')
+[TradeDetail(trade_id=None, player_id=202685, from_team_id=1610612740, to_team_id=1610612764)]
+[]
+[]
+*******END   9
+*******START 10
+Trade(id=None, date='2024-07-06')
+[TradeDetail(trade_id=None, player_id=1631111, from_team_id=None, to_team_id=1610612750),
+ TradeDetail(trade_id=None, player_id=1641752, from_team_id=None, to_team_id=1610612750),
+ TradeDetail(trade_id=None, player_id=1642285, from_team_id=1610612750, to_team_id=1610612765),
+ TradeDetail(trade_id=None, player_id=1642279, from_team_id=1610612763, to_team_id=1610612761)]
+[]
+[Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown'),
+ Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown')]
+*******END   10
+*******START 11
+Trade(id=None, date='2024-07-06')
+[TradeDetail(trade_id=None, player_id=203501, from_team_id=1610612742, to_team_id=1610612765),
+ TradeDetail(trade_id=None, player_id=1629656, from_team_id=1610612765, to_team_id=1610612742)]
+[]
+[]
+*******END   11
+*******START 12
+Trade(id=None, date='2024-06-28')
+[TradeDetail(trade_id=None, player_id=1629667, from_team_id=1610612761, to_team_id=1610612758),
+ TradeDetail(trade_id=None, player_id=1630558, from_team_id=1610612758, to_team_id=1610612761),
+ TradeDetail(trade_id=None, player_id=1628426, from_team_id=1610612758, to_team_id=1610612761),
+ TradeDetail(trade_id=None, player_id=1642347, from_team_id=1610612758, to_team_id=1610612761)]
+[]
+[]
+*******END   12
+*******START 13
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1642277, from_team_id=1610612759, to_team_id=1610612754),
+ TradeDetail(trade_id=None, player_id=1642361, from_team_id=1610612754, to_team_id=1610612759)]
+[]
+[]
+*******END   13
+*******START 14
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1642345, from_team_id=1610612752, to_team_id=1610612756),
+ TradeDetail(trade_id=None, player_id=1641755, from_team_id=1610612756, to_team_id=1610612752)]
+[]
+[]
+*******END   14
+*******START 15
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1630322, from_team_id=1610612760, to_team_id=1610612744),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=None, to_team_id=1610612744),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612744, to_team_id=1610612760),
+ TradeDetail(trade_id=None, player_id=1642345, from_team_id=1610612757, to_team_id=1610612760),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612760, to_team_id=1610612757)]
+[Player(id=None, name='Quenten Post', active=True),
+ Player(id=None, name='Quentin Post', active=True),
+ Player(id=None, name='Quentin Post', active=True)]
+[Team(id=None, abbreviation='NA', name='Unknown', nickname='Unknown')]
+*******END   15
+*******START 16
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1641810, from_team_id=1610612753, to_team_id=1610612740)]
+[]
+[]
+*******END   16
+*******START 17
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1642351, from_team_id=1610612752, to_team_id=1610612742),
+ TradeDetail(trade_id=None, player_id=1630574, from_team_id=1610612742, to_team_id=1610612752),
+ TradeDetail(trade_id=None, player_id=None, from_team_id=1610612742, to_team_id=1610612752)]
+[Player(id=None, name='Petteri Koponen', active=True)]
+[]
+*******END   17
+*******START 18
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1642349, from_team_id=1610612752, to_team_id=1610612760),
+ TradeDetail(trade_id=None, player_id=1642345, from_team_id=1610612760, to_team_id=1610612752),
+ TradeDetail(trade_id=None, player_id=1642366, from_team_id=1610612744, to_team_id=1610612757),
+ TradeDetail(trade_id=None, player_id=1630322, from_team_id=1610612760, to_team_id=1610612744)]
+[]
+[]
+*******END   18
+*******START 19
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1642365, from_team_id=1610612748, to_team_id=1610612737),
+ TradeDetail(trade_id=None, player_id=1641796, from_team_id=1610612745, to_team_id=1610612748),
+ TradeDetail(trade_id=None, player_id=1631100, from_team_id=1610612737, to_team_id=1610612745)]
+[]
+[]
+*******END   19
+*******START 20
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1642278, from_team_id=1610612757, to_team_id=1610612752)]
+[]
+[]
+*******END   20
+*******START 21
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1642265, from_team_id=1610612759, to_team_id=1610612750)]
+[]
+[]
+*******END   21
+*******START 22
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1641794, from_team_id=1610612752, to_team_id=1610612760)]
+[]
+[]
+*******END   22
+*******START 23
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1641794, from_team_id=1610612764, to_team_id=1610612752),
+ TradeDetail(trade_id=None, player_id=1642273, from_team_id=1610612752, to_team_id=1610612764)]
+[]
+[]
+*******END   23
+*******START 24
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1641747, from_team_id=1610612756, to_team_id=1610612743),
+ TradeDetail(trade_id=None, player_id=1642346, from_team_id=1610612743, to_team_id=1610612756)]
+[]
+[]
+*******END   24
+*******START 25
+Trade(id=None, date='2024-06-27')
+[TradeDetail(trade_id=None, player_id=1627763, from_team_id=1610612757, to_team_id=1610612764),
+ TradeDetail(trade_id=None, player_id=1642267, from_team_id=1610612757, to_team_id=1610612764),
+ TradeDetail(trade_id=None, player_id=1630166, from_team_id=1610612764, to_team_id=1610612757)]
+[]
+[]
+*******END   25
+*******START 26
+Trade(id=None, date='2024-06-21')
+[TradeDetail(trade_id=None, player_id=1627936, from_team_id=1610612741, to_team_id=1610612760),
+ TradeDetail(trade_id=None, player_id=1630581, from_team_id=1610612760, to_team_id=1610612741)]
+[]
+[]
+*******END   26
