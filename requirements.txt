@@ -1,2 +1,4 @@
 nba_api
 requests
+libsql-experimental==0.0.41
+python-dotenv
